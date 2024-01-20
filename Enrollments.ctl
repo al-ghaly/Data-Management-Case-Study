@@ -1,0 +1,10 @@
+LOAD DATA
+ INTO TABLE Enrollments
+ INSERT
+ FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+(
+ grade,
+ STU_ID,
+ code,
+ year "TO_DATE(:year, 'YYYY/MM/DD')"
+)

@@ -1,0 +1,58 @@
+
+SQL*Loader: Release 21.0.0.0.0 - Production on Sat Jan 20 15:16:23 2024
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle and/or its affiliates.  All rights reserved.
+
+Control File:   Enrollments.ctl
+Data File:      Enrollments.dat
+  Bad File:     Enrollments.bad
+  Discard File:  none specified
+ 
+ (Allow all discards)
+
+Number to load: ALL
+Number to skip: 0
+Errors allowed: 50
+Continuation:    none specified
+Path used:      Direct
+
+Table ENROLLMENTS, loaded from every logical record.
+Insert option in effect for this table: INSERT
+
+   Column Name                  Position   Len  Term Encl Datatype
+------------------------------ ---------- ----- ---- ---- ---------------------
+GRADE                               FIRST     *   ,  O(") CHARACTER            
+STU_ID                               NEXT     *   ,  O(") CHARACTER            
+CODE                                 NEXT     *   ,  O(") CHARACTER            
+YEAR                                 NEXT     *   ,  O(") CHARACTER            
+    SQL string for column : "TO_DATE(:year, 'YYYY/MM/DD')"
+
+The following index(es) on table ENROLLMENTS were processed:
+ORA-39828: Constraint SYS_C009081 was disabled because of index CS.SYS_C009081 error.
+index CS.SYS_C009081 was made unusable due to:
+ORA-01452: cannot CREATE UNIQUE INDEX; duplicate keys found
+
+Table ENROLLMENTS:
+  211546 Rows successfully loaded.
+  0 Rows not loaded due to data errors.
+  0 Rows not loaded because all WHEN clauses were failed.
+  0 Rows not loaded because all fields were null.
+
+Bind array size not used in direct path.
+Column array  rows :    5000
+Stream buffer bytes:  256000
+Read   buffer bytes: 1048576
+
+Total logical records skipped:          0
+Total logical records read:        211546
+Total logical records rejected:         0
+Total logical records discarded:        0
+Total stream buffers loaded by SQL*Loader main thread:       47
+Total stream buffers loaded by SQL*Loader load thread:        0
+
+Run began on Sat Jan 20 15:16:23 2024
+Run ended on Sat Jan 20 15:16:24 2024
+
+Elapsed time was:     00:00:01.93
+CPU time was:         00:00:00.18

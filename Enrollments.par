@@ -1,0 +1,6 @@
+userid=CS/123
+control=Enrollments.ctl
+log=Enrollments.log
+bad=Enrollments.bad
+data=Enrollments.dat
+direct=true
