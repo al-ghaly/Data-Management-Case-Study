@@ -92,16 +92,20 @@ BEGIN
     WITH
         GRADES
         AS
-            (SELECT DECODE (E.GRADE,
-                            'A+', 4,
-                            'A', 3.6,
-                            'B', 3,
-                            'C', 2.4,
-                            'D', 2,
-                            'F', 0)            C_GPA,
+            (SELECT CASE
+                        WHEN E.GRADE > 95 THEN 4
+                        WHEN E.GRADE > 90 THEN 3.6
+                        WHEN E.GRADE > 80 THEN 3
+                        WHEN E.GRADE > 70 THEN 2.4
+                        WHEN E.GRADE > 60 THEN 2
+                        WHEN E.GRADE IS NULL THEN NULL
+                        ELSE 0
+                    END                        C_GPA,
                     TRUNC (C.DURATION / 10)    C_HOURS
                FROM ENROLLMENTS E, COURSES C
-              WHERE C.CODE = E.CODE AND E.STU_ID = ST_ID)
+              WHERE     C.CODE = E.CODE
+                    AND E.STU_ID = ST_ID
+                    AND E.GRADE IS NOT NULL)
     SELECT ROUND (SUM (C_GPA * C_HOURS) / SUM (C_HOURS), 2)
       INTO GPA
       FROM GRADES;
@@ -111,6 +115,29 @@ END;
 
 SHOW ERRORS;
 
+CREATE OR REPLACE TRIGGER VALIDATE_ENROLLMENT
+    BEFORE INSERT
+    ON ENROLLMENTS
+    FOR EACH ROW
+DECLARE
+    ATTEMPTS   NUMBER (2);
+BEGIN
+    SELECT COUNT (*)
+      INTO ATTEMPTS
+      FROM ENROLLMENTS
+     WHERE STU_ID = :NEW.STU_ID AND CODE = :NEW.CODE;
+
+    IF ATTEMPTS > 1
+    THEN
+        RAISE_APPLICATION_ERROR (
+            -20001,
+               'Student: '
+            || :NEW.STU_ID
+            || ' Have already attempted this course twice before!!');
+    END IF;
+END;
+
+SHOW ERRORS;
 
 BEGIN
     UPDATE_STUDENT (0);
@@ -148,3 +175,6 @@ SELECT *
  WHERE ID BETWEEN 0 AND 7;
 
  SELECT ID, CALC_GPA (ID) FROM STUDENT;
+----------------------------------------------------------------------------
+
+

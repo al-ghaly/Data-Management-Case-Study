@@ -1,0 +1,112 @@
+.backgroundedLogin{
+    -fx-background-image: url("../Images/Login.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+.backgroundedSignUp{
+    -fx-background-image: url("../Images/Sign.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+.backgroundedHome{
+    -fx-background-image: url("../Images/i-make-a-wish-upscaled.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+.profile-label {
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333; /* Dark gray text color */
+    -fx-padding: 5px;
+}
+.root {
+    -fx-background-color: #F4F4F4;
+    -fx-text-fill: #333333;
+}
+
+.label {
+    -fx-font-size: 16px;
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000000; /* Black text */
+}
+/*Start of ListView & TableView
+
+/*Start Of Button Style*/
+.button {
+    -fx-background-color: #0078d0;
+    -fx-border-width: 0;
+    -fx-height: 48px;
+    -fx-background-radius: 56px;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-font-family: system-ui, -apple-system, system-ui, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
+    -fx-alignment: center;
+    -fx-text-decoration: none;
+    -fx-transition: all .3s;
+    -fx-user-select: none;
+    -fx-touch-action: manipulation;
+}
+
+.button:before {
+    -fx-background-color: initial;
+    -fx-background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+    -fx-background-radius: 125px;
+    -fx-opacity: .5;
+    -fx-transition: all .3s;
+}
+
+.button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, .2), 0, 0, 0, 3);
+    -fx-transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+    .button {
+        -fx-padding: 16px 48px;
+    }
+}
+/*End Of Button Style*/
+
+.text-area {
+    -fx-control-inner-background: #ECF0F1;
+    -fx-text-fill: #333333;
+}
+
+.list-view, .table-view {
+    -fx-background-color: rgba(154, 208, 194, 0.8);
+    -fx-text-fill: #333333;
+    -fx-table-cell-border-color: transparent;
+}
+
+.list-cell:filled:selected, .table-row-cell:filled:selected {
+    -fx-background-color: #2D9596;
+    -fx-text-fill: #FFFFFF;
+}
+
+.list-cell:hover, .table-row-cell:hover {
+    -fx-background-color: #9AD0C2;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #2D9596;
+    -fx-text-fill: #FFFFFF;
+}
+
+.table-column {
+    -fx-alignment: CENTER;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: white;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #FFC47E;
+}

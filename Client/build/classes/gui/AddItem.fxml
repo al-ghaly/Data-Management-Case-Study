@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import javafx.geometry.Insets?>
+        <?import javafx.scene.control.Button?>
+        <?import javafx.scene.control.Label?>
+        <?import javafx.scene.control.TableView?>
+        <?import javafx.scene.control.TextField?>
+        <?import javafx.scene.layout.ColumnConstraints?>
+        <?import javafx.scene.layout.GridPane?>
+        <?import javafx.scene.layout.RowConstraints?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" stylesheets="@../Styles/Style.css" fx:controller="gui.AddItemController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" percentHeight="75.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <GridPane prefWidth="510.0" GridPane.rowIndex="1">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="90.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <TextField fx:id="searchBar" promptText="Search for an Item">
+                    <GridPane.margin>
+                        <Insets />
+                    </GridPane.margin>
+                </TextField>
+                <TableView fx:id="market" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </TableView>
+            </children>
+            <GridPane.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </GridPane.margin>
+        </GridPane>
+        <GridPane style="-fx-background-color: gray;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <TextField fx:id="nameTxt" promptText="Name" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="40.0" right="40.0" />
+                    </GridPane.margin>
+                </TextField>
+                <TextField fx:id="catTxt" promptText="Category" GridPane.rowIndex="3">
+                    <GridPane.margin>
+                        <Insets left="40.0" right="40.0" />
+                    </GridPane.margin>
+                </TextField>
+                <TextField fx:id="priceTxt" promptText="Price" GridPane.rowIndex="5">
+                    <GridPane.margin>
+                        <Insets left="40.0" right="40.0" />
+                    </GridPane.margin>
+                </TextField>
+                <Label style="-fx-font-size: 18;" text="Enter The Item's Name">
+                    <GridPane.margin>
+                        <Insets left="40.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label style="-fx-font-size: 18;" text="Enter The Item's Category" GridPane.rowIndex="2">
+                    <GridPane.margin>
+                        <Insets left="40.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label style="-fx-font-size: 18;" text="Enter The Item's Price" GridPane.rowIndex="4">
+                    <GridPane.margin>
+                        <Insets left="40.0" />
+                    </GridPane.margin>
+                </Label>
+                <Button fx:id="addCutomBtn" mnemonicParsing="false" style="-fx-font-size: 20;" text="Add Item" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+            </children>
+            <GridPane.margin>
+                <Insets bottom="20.0" left="100.0" right="100.0" />
+            </GridPane.margin>
+        </GridPane>
+        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="19.0" prefWidth="1113.0" style="-fx-background-color: gray; -fx-font-size: 25;" text="Add a new Item to your Wish List" GridPane.columnSpan="2">
+            <GridPane.margin>
+                <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
+            </GridPane.margin>
+        </Label>
+        <Button fx:id="addMarketBtn" alignment="CENTER" mnemonicParsing="false" style="-fx-font-size: 20;" text="Save" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets />
+            </GridPane.margin>
+            <padding>
+                <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+            </padding>
+        </Button>
+    </children>
+</GridPane>
+
