@@ -65,11 +65,20 @@ public class HomeController implements Initializable {
             try {
                 switchToStudents();
             } catch (Exception ex) {
+                ex.printStackTrace();
+                showAlert("An Error Happened");
+            }
+        });
+
+        notButton.setOnAction(e -> {
+            try {
+                switchToNotifications();
+            } catch (Exception ex) {
+                ex.printStackTrace();
                 showAlert("An Error Happened");
             }
         });
     }
-
 
     public void popUpAbout(){
         Stage popupStage = new Stage();
@@ -99,6 +108,15 @@ public class HomeController implements Initializable {
     public void switchToStudents() throws Exception{
         Stage popupStage = new Stage();
         Parent students = FXMLLoader.load(getClass().getResource("../gui/Students.fxml"));
+        Scene scene = new Scene(students);
+        popupStage.setScene(scene);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.show();
+    }
+
+    public void switchToNotifications() throws Exception{
+        Stage popupStage = new Stage();
+        Parent students = FXMLLoader.load(getClass().getResource("../gui/Notifications.fxml"));
         Scene scene = new Scene(students);
         popupStage.setScene(scene);
         popupStage.initModality(Modality.APPLICATION_MODAL);

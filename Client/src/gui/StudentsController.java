@@ -8,9 +8,14 @@ import client.Student;
 import database.DataAccessLayer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class StudentsController implements Initializable {
 
@@ -24,12 +29,18 @@ public class StudentsController implements Initializable {
     private Button buttonEditStudent;
     @javafx.fxml.FXML
     private TextField search;
+    @javafx.fxml.FXML
+    private RadioButton all;
+    boolean allStudents = true;
 
     DataAccessLayer database;
-    ArrayList<Student> students = new ArrayList<>();
+    ObservableList<Student> students  =
+            FXCollections.observableArrayList();
+    ObservableList<Student> filteredStudents;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        all.setSelected(true);
         database = DataAccessLayer.getInstance();
         tableStudents.setMaxWidth(900);
         loadStudents();
@@ -55,68 +66,87 @@ public class StudentsController implements Initializable {
         // Disable the remove/edit button if no items are selected
         buttonRemoveStudent.disableProperty().bind(
                 tableStudents.getSelectionModel().selectedItemProperty().isNull());
-        fillTable(tableStudents);
-
         buttonEditStudent.disableProperty().bind(
                 tableStudents.getSelectionModel().selectedItemProperty().isNull());
-        fillTable(tableStudents);
+        tableStudents.setItems(students);
         search.textProperty().addListener(
                 (observable, oldValue, newValue) -> filterStudents(newValue));
 
-//        buttonAddFriend.setOnAction(e -> {
-//            ClientTable selectedUser = tableAddFriend.getSelectionModel().getSelectedItem();
-//            String friendName = selectedUser.getUsername();
-//            if (selectedUser != null) {
-//                if (showConfirm("Are you sure you want to add  "
-//                        + friendName + " as a friend?").equals("Ok")) {
-//                    addFriend(username, friendName);
-//                }
-//            }
-//        });
+        all.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            allStudents = newValue;
+            filterStudents(search.getText());
+        });
+
+        tableStudents.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                // Double-click detected
+                int selectedIndex = tableStudents.getSelectionModel().getSelectedIndex();
+                if (selectedIndex >= 0 && selectedIndex < tableStudents.getItems().size()) {
+                    Student selectedStudent = tableStudents.getItems().get(selectedIndex);
+                    try {
+                        openStudentProfile(selectedStudent);
+                    } catch (Exception ex) {
+                        showAlert("An Error Happened", true);
+                    }
+                }
+            }
+        });
+        buttonRemoveStudent.setOnAction(e -> {
+            Student selectedStudent = tableStudents.getSelectionModel().getSelectedItem();
+            int id = selectedStudent.getId();
+            if (selectedStudent != null) {
+                if (showConfirm("Are you sure you want to remove  "
+                        + selectedStudent.getName() + " ?").equals("Ok")) {
+                    if(removeStudent(id) == 1){
+                        selectedStudent.setStatus("Archived");
+                        tableStudents.refresh();
+                        filterStudents(search.getText());
+                        showAlert("Student " + selectedStudent.getName() + " removed", false);
+                    }
+                    else {
+                        showAlert("An Error happened trying to delete the student !", true);
+                    }
+                }
+            }
+        });
+
+        buttonEditStudent.setOnAction(e -> {
+            Student selectedStudent = tableStudents.getSelectionModel().getSelectedItem();
+            try {
+                openAlterStudent(selectedStudent.getId(), selectedStudent.getDepartment());
+            } catch (Exception ex) {
+                showAlert("An Error Happened", true);
+            }
+        });
+
+        buttonAddStudent.setOnAction(e -> {
+            try {
+                openAlterStudent(null, null);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                showAlert("An Error Happened", true);
+            }
+        });
     }
 
-//    private void addFriend(String username, String friendName) {
-//        try {
-//            JSONObject logInData = new JSONObject();
-//            logInData.put("Type", "add friend");
-//            logInData.put("username", username);
-//            logInData.put("friend name", friendName);
-//
-//            // Send the JSON string to the server
-//            ClientSide.ps.println(logInData);
-//            ClientSide.ps.flush();
-//
-//            // Read the server response
-//            String response = ClientSide.dis.readLine();
-//
-//            if (response.equals("success")) {
-//                showAlert("Request sent ^_^!", false);
-//            }
-//            else{
-//                showAlert("An error happened connecting to server!", true);
-//            }
-//
-//        } catch (Exception ex) {
-//            // Provide feedback to the user about the error
-//            showAlert("An error happened connecting to server!", true);
-//        }
-//    }
+    private int removeStudent(int id) {
+        try {
+            return database.deleteStudent(id);
+        } catch (SQLException ex) {
+            return -1;
+        }
+    }
 
     private void filterStudents(String newValue) {
         // Filter the friends list based on the entered text
-        ObservableList<Student> filteredStudents= FXCollections.observableArrayList();
+        filteredStudents = FXCollections.observableArrayList();
         for (Student student : students) {
             if (student.getName().toLowerCase().contains(newValue.toLowerCase())) {
-                filteredStudents.add(student);
+                if(allStudents || student.getStatus().equals("Active"))
+                    filteredStudents.add(student);
             }
         }
         tableStudents.setItems(filteredStudents);
-    }
-
-    private void fillTable(TableView<Student> tableStudents) {
-        ObservableList<Student> stds =
-                FXCollections.observableArrayList(students);
-        tableStudents.setItems(stds);
     }
 
     private void loadStudents() {
@@ -171,5 +201,59 @@ public class StudentsController implements Initializable {
         } else {
             return "Cancel";
         }
+    }
+
+    private void openStudentProfile(Student student) throws Exception{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/StudentProfile.fxml"));
+
+        // Create an instance of your controller and set the data
+        StudentProfileController studentProfileController = new StudentProfileController();
+        studentProfileController.setData(student);
+
+        loader.setControllerFactory(clazz -> {
+            if (clazz == StudentProfileController.class) {
+                return studentProfileController;
+            } else {
+                try {
+                    return clazz.newInstance();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        Stage popupStage = new Stage();
+        Parent home = loader.load();
+        Scene scene = new Scene(home);
+        popupStage.setScene(scene);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.show();
+    }
+
+    private void openAlterStudent(Integer id, Integer dep_id) throws Exception{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../gui/StudentAlter.fxml"));
+
+        // Create an instance of your controller and set the data
+        StudentAlterController studentAlterController = new StudentAlterController();
+        studentAlterController.setData(id, dep_id, students);
+
+        loader.setControllerFactory(clazz -> {
+            if (clazz == StudentAlterController.class) {
+                return studentAlterController;
+            } else {
+                try {
+                    return clazz.newInstance();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        Stage popupStage = new Stage();
+        Parent home = loader.load();
+        Scene scene = new Scene(home);
+        popupStage.setScene(scene);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.show();
     }
 }
