@@ -123,7 +123,6 @@ public class StudentsController implements Initializable {
             try {
                 openAlterStudent(null, null);
             } catch (Exception ex) {
-                ex.printStackTrace();
                 showAlert("An Error Happened", true);
             }
         });
@@ -172,6 +171,8 @@ public class StudentsController implements Initializable {
                 student.setStatus(status);
                 float gpa = studentsData.getFloat(9);
                 student.setGpa(gpa);
+                int totalHours = studentsData.getInt(10);
+                student.setTotalHours(totalHours);
                 students.add(student);
             }
         } catch (SQLException ex) {

@@ -56,7 +56,6 @@ public class HomeController implements Initializable {
             try {
                 switchToLogIn(e);
             } catch (Exception ex) {
-                ex.printStackTrace();
                 showAlert("An Error Happened");
             }
         });
@@ -65,7 +64,6 @@ public class HomeController implements Initializable {
             try {
                 switchToStudents();
             } catch (Exception ex) {
-                ex.printStackTrace();
                 showAlert("An Error Happened");
             }
         });
@@ -74,7 +72,22 @@ public class HomeController implements Initializable {
             try {
                 switchToNotifications();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                showAlert("An Error Happened");
+            }
+        });
+
+        enrollButton.setOnAction(e -> {
+            try {
+                switchToEnroll();
+            } catch (Exception ex) {
+                showAlert("An Error Happened");
+            }
+        });
+
+        gradingButton.setOnAction(e -> {
+            try {
+                switchToGrading();
+            } catch (Exception ex) {
                 showAlert("An Error Happened");
             }
         });
@@ -117,6 +130,23 @@ public class HomeController implements Initializable {
     public void switchToNotifications() throws Exception{
         Stage popupStage = new Stage();
         Parent students = FXMLLoader.load(getClass().getResource("../gui/Notifications.fxml"));
+        Scene scene = new Scene(students);
+        popupStage.setScene(scene);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.show();
+    }
+
+    public void switchToEnroll() throws Exception{
+        Stage popupStage = new Stage();
+        Parent students = FXMLLoader.load(getClass().getResource("../gui/Enroll.fxml"));
+        Scene scene = new Scene(students);
+        popupStage.setScene(scene);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.show();
+    }
+    public void switchToGrading() throws Exception{
+        Stage popupStage = new Stage();
+        Parent students = FXMLLoader.load(getClass().getResource("../gui/Grading.fxml"));
         Scene scene = new Scene(students);
         popupStage.setScene(scene);
         popupStage.initModality(Modality.APPLICATION_MODAL);

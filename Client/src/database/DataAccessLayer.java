@@ -60,7 +60,7 @@ public class DataAccessLayer {
 
     public ResultSet getStudents() throws SQLException{
         PreparedStatement stmt = connection.prepareStatement(
-                "select name, email, id, trunc(months_between(sysdate, dob) / 12) as age, city, street, dep_id, status, calc_gpa(id) from student order by id");
+                "select name, email, id, trunc(months_between(sysdate, dob) / 12) as age, city, street, dep_id, status, calc_gpa(id), calc_hours(id) from student order by id");
         return stmt.executeQuery();
     }
 
@@ -102,7 +102,6 @@ public class DataAccessLayer {
                 "update student set status = 'Archived' where id = ?");
         stmt.setInt(1, id);
         return stmt.executeUpdate();
-
     }
 
     public ResultSet getDepartments() throws SQLException{
@@ -155,5 +154,63 @@ public class DataAccessLayer {
                 "select description from notifications");
         return stmt.executeQuery();
 
+    }
+
+    public ResultSet getCurrentStudents()  throws SQLException{
+        PreparedStatement stmt = connection.prepareStatement(
+                "  SELECT S.NAME, D.NAME, CALC_GPA (S.ID)\n, S.ID, CALC_HOURS(S.ID),CALC_EN_HOURS(S.ID)" +
+                        "    FROM STUDENT S, CDEPARTMENTS D\n" +
+                        "   WHERE STATUS = 'Active' AND S.DEP_ID = D.ID\n" +
+                        "ORDER BY S.ID");
+        return stmt.executeQuery();
+    }
+
+    public ResultSet getEnrolledCourses(int id) throws SQLException{
+        PreparedStatement stmt = connection.prepareStatement(
+                "SELECT E.CODE, C.NAME, TRUNC (DURATION / 10) AS HOURS\n" +
+                        "  FROM ENROLLMENTS E, COURSES C\n" +
+                        " WHERE E.CODE = C.CODE AND E.GRADE IS NULL AND E.STU_ID = ?");
+        stmt.setInt(1, id);
+        return stmt.executeQuery();
+    }
+
+    public ResultSet getCourses() throws SQLException{
+        PreparedStatement stmt = connection.prepareStatement(
+                "SELECT C.CODE, C.NAME, TRUNC (DURATION / 10) AS HOURS\n" +
+                        "  FROM COURSES C" );
+        return stmt.executeQuery();
+    }
+
+    public int enroll(int id, int code) throws SQLException{
+        PreparedStatement stmt = connection.prepareStatement(
+                "insert into enrollments (stu_id, code) \n" +
+                        "values (?, ?)");
+        stmt.setInt(1, id);
+        stmt.setInt(2, code);
+        PreparedStatement stmt2 = connection.prepareStatement(
+                "INSERT INTO notifications (description) VALUES ('Successfully enrolled student: ' || ? || ' Into Course: ' || ?)");
+        stmt2.setInt(1, id);
+        stmt2.setInt(2, code);
+        return stmt.executeUpdate() + stmt2.executeUpdate();
+    }
+
+    public int gradeStudent(int id, int code, int grade) throws SQLException{
+        PreparedStatement stmt = connection.prepareStatement(
+                "update enrollments set grade = ? where stu_id = ? and code = ?");
+        stmt.setInt(1, grade);
+        stmt.setInt(2, id);
+        stmt.setInt(3, code);
+        PreparedStatement stmt2 = connection.prepareStatement(
+                "INSERT INTO notifications (description) VALUES ('Successfully graded student: ' || ? || ' for Course: ' || ?)");
+        stmt2.setInt(1, id);
+        stmt2.setInt(2, code);
+        return stmt.executeUpdate() + stmt2.executeUpdate();
+    }
+
+    public int graduate(int id)  throws SQLException{
+        PreparedStatement stmt = connection.prepareStatement(
+                "update student set status = 'Graduate' where id = ?");
+        stmt.setInt(1, id);
+        return stmt.executeUpdate();
     }
 }

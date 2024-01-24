@@ -33,7 +33,6 @@ public class StudentProfileController implements Initializable {
     private Label totalHours;
     @javafx.fxml.FXML
     private TableView<Course> courses;
-    int total_hours = 0;
 
     Student student;
     DataAccessLayer database;
@@ -81,7 +80,7 @@ public class StudentProfileController implements Initializable {
         // Fill the table
         fillTable();
         courses.setMaxWidth(750);
-        totalHours.setText("Total Hours: " + total_hours);
+        totalHours.setText("Total Hours: " + student.getTotalHours());
     }
 
     public void fillTable() {
@@ -98,7 +97,6 @@ public class StudentProfileController implements Initializable {
                 int duration = results.getInt(3);
                 course.setDuration(duration);
                 int hours = results.getInt(4);
-                total_hours += hours;
                 course.setHours(hours);
                 String year = results.getString(5);
                 course.setYear(year);

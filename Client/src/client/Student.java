@@ -13,6 +13,20 @@ public class Student {
     private final SimpleStringProperty street = new SimpleStringProperty();
     private final SimpleIntegerProperty department = new SimpleIntegerProperty();
     private final SimpleStringProperty status = new SimpleStringProperty();
+    private final SimpleIntegerProperty totalHours = new SimpleIntegerProperty();
+
+    public int getTotalHours() {
+        return totalHours.get();
+    }
+
+    public SimpleIntegerProperty totalHoursProperty() {
+        return totalHours;
+    }
+
+    public void setTotalHours(int totalHours) {
+        this.totalHours.set(totalHours);
+    }
+
 
     public float getGpa() {
         return gpa.get();
