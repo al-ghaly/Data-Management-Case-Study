@@ -228,7 +228,6 @@ public class GradingController implements Initializable {
                         showAlert("An Error happened HH !", true);
                 }
                 catch (SQLException ex){
-                    ex.printStackTrace();
                     showAlert("An error happened trying to connect to the database! !", true);
                 }
             }

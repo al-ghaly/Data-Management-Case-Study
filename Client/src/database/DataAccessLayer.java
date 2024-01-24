@@ -213,4 +213,64 @@ public class DataAccessLayer {
         stmt.setInt(1, id);
         return stmt.executeUpdate();
     }
+
+    public ResultSet getCoursesData() throws SQLException{
+        PreparedStatement stmt = connection.prepareStatement(
+                "  SELECT CODE,\n" +
+                        "         NAME,\n" +
+                        "         DURATION,\n" +
+                        "         TRUNC (DURATION / 10)     AS HOURS,\n" +
+                        "         CALC_CRS_STDS (CODE)      AS STDS,\n" +
+                        "         CALC_CRS_GPA (CODE)       AS GPA\n" +
+                        "    FROM COURSES\n" +
+                        "ORDER BY STDS DESC, GPA DESC" );
+        return stmt.executeQuery();
+    }
+
+    public ResultSet getCourseStudents(int code) throws SQLException{
+        PreparedStatement stmt = connection.prepareStatement(
+                "SELECT S.ID,\n" +
+                        "       S.NAME,\n" +
+                        "       E.YEAR,\n" +
+                        "       E.SEMESTER,\n" +
+                        "       E.GRADE,\n" +
+                        "       CASE\n" +
+                        "           WHEN E.GRADE > 95 THEN 'A+'\n" +
+                        "           WHEN E.GRADE > 90 THEN 'A'\n" +
+                        "           WHEN E.GRADE > 80 THEN 'A'\n" +
+                        "           WHEN E.GRADE > 70 THEN 'C'\n" +
+                        "           WHEN E.GRADE > 60 THEN 'D'\n" +
+                        "           ELSE 'F'\n" +
+                        "       END    AS LETTER,\n" +
+                        "       CASE\n" +
+                        "           WHEN E.GRADE > 95 THEN 4\n" +
+                        "           WHEN E.GRADE > 90 THEN 3.6\n" +
+                        "           WHEN E.GRADE > 80 THEN 3\n" +
+                        "           WHEN E.GRADE > 70 THEN 2.4\n" +
+                        "           WHEN E.GRADE > 60 THEN 2\n" +
+                        "           ELSE 0\n" +
+                        "       END    AS GPA\n" +
+                        "  FROM STUDENT S, ENROLLMENTS E\n" +
+                        " WHERE S.ID = E.STU_ID and E.CODE = ?" );
+        stmt.setInt(1, code);
+        return stmt.executeQuery();
+    }
+
+    public int addCourse(String text, int durationInt) throws SQLException{
+        PreparedStatement stmt = connection.prepareStatement(
+                "insert into courses (name, duration) \n" +
+                        "values (?, ?)");
+        stmt.setString(1, text);
+        stmt.setInt(2, durationInt);
+        PreparedStatement stmt2 = connection.prepareStatement(
+                "INSERT INTO notifications (description) VALUES ('Successfully Added: ' || ? || ' data')");
+        stmt2.setString(1, text);
+        return stmt.executeUpdate() + stmt2.executeUpdate();
+    }
+
+    public ResultSet getInstructors() throws SQLException{
+        PreparedStatement stmt = connection.prepareStatement(
+                "select i.id, i.name, i.email, i.phone, d.name from instructors i, cdepartments d where d.id = i.dep_id");
+        return stmt.executeQuery();
+    }
 }

@@ -84,6 +84,14 @@ public class HomeController implements Initializable {
             }
         });
 
+        instructorsButton.setOnAction(e -> {
+            try {
+                switchToIns();
+            } catch (Exception ex) {
+                showAlert("An Error Happened");
+            }
+        });
+
         gradingButton.setOnAction(e -> {
             try {
                 switchToGrading();
@@ -91,6 +99,23 @@ public class HomeController implements Initializable {
                 showAlert("An Error Happened");
             }
         });
+
+        coursesButton.setOnAction(e -> {
+            try {
+                switchToCourses();
+            } catch (Exception ex) {
+                showAlert("An Error Happened");
+            }
+        });
+    }
+
+    private void switchToIns() throws Exception{
+        Stage popupStage = new Stage();
+        Parent students = FXMLLoader.load(getClass().getResource("../gui/Instructors.fxml"));
+        Scene scene = new Scene(students);
+        popupStage.setScene(scene);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.show();
     }
 
     public void popUpAbout(){
@@ -121,6 +146,15 @@ public class HomeController implements Initializable {
     public void switchToStudents() throws Exception{
         Stage popupStage = new Stage();
         Parent students = FXMLLoader.load(getClass().getResource("../gui/Students.fxml"));
+        Scene scene = new Scene(students);
+        popupStage.setScene(scene);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.show();
+    }
+
+    public void switchToCourses() throws Exception{
+        Stage popupStage = new Stage();
+        Parent students = FXMLLoader.load(getClass().getResource("../gui/Courses.fxml"));
         Scene scene = new Scene(students);
         popupStage.setScene(scene);
         popupStage.initModality(Modality.APPLICATION_MODAL);
