@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<GridPane fx:id="StudentsScene" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="673.0" prefWidth="1200.0" style="-fx-background-color: 7D7C7C;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../Styles/Style.css" fx:controller="gui.InstructorsController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="49.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="60.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="49.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints maxHeight="103.0" minHeight="69.0" percentHeight="14.0" prefHeight="103.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="103.0" minHeight="69.0" percentHeight="14.0" prefHeight="103.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="465.0" minHeight="424.0" percentHeight="92.0" prefHeight="442.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="379.0" minHeight="90.0" percentHeight="14.0" prefHeight="113.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.halignment="CENTER">
+<center>
+                <TableView fx:id="tableStudents" prefHeight="532.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+                </TableView>
+</center>
+        </BorderPane>
+        <GridPane GridPane.rowIndex="4" GridPane.columnSpan="3">
+           <HBox spacing="20" alignment="CENTER" GridPane.hgrow="ALWAYS">
+               <GridPane.margin>
+                   <Insets top ="10.0" />
+               </GridPane.margin>
+           </HBox>
+        </GridPane>
+        <TextField fx:id="search" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label alignment="CENTER" prefHeight="63.0" prefWidth="1200.0" text="Students List" GridPane.columnSpan="3" GridPane.rowIndex="1" style="-fx-text-fill: white; -fx-font-size: 28px;">
+        </Label>
+    </children>
+    <styleClass>
+        <String fx:value="b" />
+        <String fx:value="backgroundedAddItem" />
+    </styleClass>
+</GridPane>
