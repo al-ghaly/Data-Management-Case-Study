@@ -22,9 +22,9 @@ The College Data Management System is a comprehensive case study that simulates 
 To explore the project in detail, please refer to the following documents:
 
 - [Project Documentation PDF](https://github.com/al-ghaly/Data-Management-Case-Study/blob/main/Project%20Documentations.pdf)
-- [Java Application Code]([link-to-your-java-application](https://github.com/al-ghaly/Data-Management-Case-Study/tree/main/Java%20Source%20Code))
-- [Bash Script Code]([link-to-your-bash-script](https://github.com/al-ghaly/Data-Management-Case-Study/blob/main/Bash/backup.sh))
-- [Database Schema]([link-to-your-database-schema](https://github.com/al-ghaly/Data-Management-Case-Study/blob/main/SQL/DB%20Scema.png))
+- [Java Application Code](https://github.com/al-ghaly/Data-Management-Case-Study/tree/main/Java%20Source%20Code)
+- [Bash Script Code](https://github.com/al-ghaly/Data-Management-Case-Study/blob/main/Bash/backup.sh)
+- [Database Schema](https://github.com/al-ghaly/Data-Management-Case-Study/blob/main/SQL/DB%20Scema.png)
 
 ## Getting Started
 
