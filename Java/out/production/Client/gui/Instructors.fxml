@@ -36,7 +36,7 @@
            </HBox>
         </GridPane>
         <TextField fx:id="search" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <Label alignment="CENTER" prefHeight="63.0" prefWidth="1200.0" text="Students List" GridPane.columnSpan="3" GridPane.rowIndex="1" style="-fx-text-fill: white; -fx-font-size: 28px;">
+        <Label alignment="CENTER" prefHeight="63.0" prefWidth="1200.0" text="Instructors List" GridPane.columnSpan="3" GridPane.rowIndex="1" style="-fx-text-fill: white; -fx-font-size: 28px;">
         </Label>
     </children>
     <styleClass>
